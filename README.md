@@ -32,6 +32,7 @@ You'll need these things (Arch packages in parenthesis, some from AUR):
 * Flask-Login (python-flask-login)
 * psycopg2 (python-psycopg2)
 * bcrypt (python-bcrypt)
+* filemagic
 
 Use the packages your OS provides, or build them from source.
 
