@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="text-center">
+    <h1><a href="/">sr.ht</a></h1>
+    <h4>{{ upload.original_name }}</h4>
+</div>
+<hr />
+{% if filetype.startswith("image/") %}
+<p class="text-center"><img src="//i.{{ domain }}/{{ filename }}" alt="{{ upload.original_name }}" style="max-width: 100%" /></p>
+<hr />
+{% elif filetype.startswith("text/") %}
+<p><pre>{{ filecontents }}</pre></p>
+<hr />
+{% endif %}
+<p>Uploaded by {{ upload.user.username }}</p>
+<p>Type: {{ filetype }}</p>
+<p>Actions: <a href="//i.{{ domain }}/{{ filename }}">Download</a>
+{% if filetype.startswith("image/") %}
+- <a href="http://imgops.com/i.{{ domain }}/{{ filename }}">ImgOps</a>
+{% endif %}
+</p>
+<p>Permalink: <input type="text" value="{{ root }}/{{ filename }}" /></p>
+{% if filetype.startswith("image/") %}
+<p>Forum embed: <input type="text" value="[img]//i.{{ domain }}/{{ filename }}[/img]" /></p>
+{% endif %}
+{% endblock %}

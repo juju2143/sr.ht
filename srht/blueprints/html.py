@@ -17,6 +17,7 @@ import locale
 import shlex
 import math
 import hashlib
+import magic
 
 encoding = locale.getdefaultlocale()[1]
 html = Blueprint('html', __name__, template_folder='../../templates')
@@ -27,6 +28,19 @@ def index():
         new = datetime.now() - timedelta(hours=24) < current_user.approvalDate
         return render_template("index-member.html", new=new)
     return render_template("index.html")
+
+@html.route("/<filename>")
+def filepage(filename):
+    filecontents = u''
+    upload=Upload.query.filter_by(path=filename).first()
+    if upload:
+        with magic.Magic(flags=magic.MAGIC_MIME_TYPE) as m:
+            filetype = m.id_filename("storage/"+filename)
+        if filetype.startswith("text/"):
+            with open("storage/"+filename) as f:
+                filecontents = f.read()
+        return render_template("file.html", filename=filename, filetype=filetype, upload=upload, filecontents=filecontents)
+    return render_template("not_found.html")
 
 @html.route("/register", methods=['POST'])
 def register():
